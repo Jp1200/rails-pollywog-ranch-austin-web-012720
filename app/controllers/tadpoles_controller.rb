@@ -8,6 +8,7 @@ class TadpolesController < ApplicationController
   end
 
   def show
+    @tadpole = Tadpole.find(params[:id])
   end
 
   def new
@@ -45,6 +46,13 @@ class TadpolesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tadpoles_url, notice: 'Tadpole was successfully destroyed.' }
     end
+  end
+  def metamorphose
+    @new_frog = Frog.new(name: @tadpole.name, color: @tadpole.color,pond_id: @tadpole.frog.pond.id)
+    @tadpole.destroy
+    @new_frog.save
+    redirect_to frog_path(@new_frog)
+
   end
 
   private
